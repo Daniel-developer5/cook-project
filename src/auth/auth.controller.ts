@@ -1,7 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { UserDto } from 'src/users/dto/create-user.dto';
 import { AuthGuard as LocalAuthGuard } from './auth.guard';
 
 export type SignInDto = {
