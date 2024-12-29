@@ -1,7 +1,7 @@
-import { ConflictException, Controller, Post, Request } from '@nestjs/common';
+import { ConflictException, Controller, Get, Post, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor (private userService: UsersService) {}
 
@@ -22,5 +22,5 @@ export class UserController {
     } catch (err) {
       throw err
     }
-  }  
+  } 
 }

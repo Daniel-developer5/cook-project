@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose';
 import { RecipesModule } from './recipes/recipes.module';
 
@@ -12,8 +12,14 @@ import { RecipesModule } from './recipes/recipes.module';
     AuthModule, UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: __dirname.replace(/\/dist$/, '') + '/.env',
     }),
-    MongooseModule.forRoot('mongodb://localhost/cook'),
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
+    }),
     RecipesModule,
   ],
   controllers: [AppController],
