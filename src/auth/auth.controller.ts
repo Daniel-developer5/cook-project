@@ -20,7 +20,7 @@ export class AuthController {
     return req.user
   }
 
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req): Promise<any> {
     try {
