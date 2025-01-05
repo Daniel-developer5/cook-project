@@ -13,7 +13,7 @@ export class User {
   password: string
 
   @Prop()
-  recipies: Recipe[]
+  recipes: Recipe[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
