@@ -8,6 +8,13 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors();
     await app.listen(8080);
+
+    const globalPrefix = '.netlify/functions/api';
+    app.setGlobalPrefix(globalPrefix);
+    await app.init();
+
+    const expressApp = app.getHttpAdapter().getInstance();
+    return serverless(expressApp)
 }
 // bootstrap();
 //# sourceMappingURL=main.js.map
