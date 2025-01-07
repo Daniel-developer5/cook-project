@@ -12,11 +12,12 @@ import { RecipesModule } from './recipes/recipes.module';
     AuthModule, UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: __dirname.replace(/\/dist$/, '') + '/.env',
+      // envFilePath: __dirname.replace(/\/dist$/, '') + '/.env',
     }),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'),
+        // uri: configService.get<string>('MONGO_URI'),
+        uri: process.env.MONGO_URI,
       }),
       inject: [ConfigService],
     }),
