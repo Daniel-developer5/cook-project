@@ -7,7 +7,7 @@ const app_module_1 = require("../../dist/app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors();
-    await app.listen(8080);
+    // await app.listen(3000);
 
     const globalPrefix = '.netlify/functions/api';
     app.setGlobalPrefix(globalPrefix);
@@ -19,8 +19,10 @@ async function bootstrap() {
 // bootstrap();
 //# sourceMappingURL=main.js.map
 
-export const handler = async (event, context, callback) => {
-    server = server ?? (await bootstrap());
+const handler = async (event, context, callback) => {
+    let server = await bootstrap();
     return server(event, context, callback);
 };
+
+module.exports = { handler }
   
