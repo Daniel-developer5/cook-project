@@ -30,7 +30,7 @@ export class AuthService {
     }
 
     return {
-      access_token: await this.jwtService.signAsync({ username: user.username }),
+      access_token: await this.jwtService.signAsync({ username: user.username, id: user._id, }),
     }
   }
 
