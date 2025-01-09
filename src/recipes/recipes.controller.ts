@@ -20,7 +20,7 @@ export class RecipesController {
     return await this.recipesService.updateRecipe(req.query.id, recipe)
   } 
 
-  @Get(':id')
+  @Get('/get-one/:id')
   async get(@Param('id') id): Promise<any> {
     return await this.recipesService.getRecipe(id);
   } 
