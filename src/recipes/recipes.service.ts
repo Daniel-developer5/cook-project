@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { GetRecipeParams, Recipe } from 'src/types';
@@ -62,13 +62,21 @@ export class RecipesService {
       const { marks } = recipe[0].recipes
       const newMarks = [ ...marks, +mark ]
 
-      await this.userModel.updateOne(
-        { 'recipes._id': new Types.ObjectId(_id), },
-        { $set: { 
-          'recipes.$.marks': newMarks, },
-          'recipes.$.mark': getAverage(newMarks),
-        }
-      )
+      try {
+        await this.userModel.updateOne(
+          { 'recipes._id': new Types.ObjectId(_id), },
+          { $set: { 
+            'recipes.$.marks': newMarks, },
+            'recipes.$.mark': getAverage(newMarks),
+          }
+        )
+
+        return { updated: true, }
+      } catch (error) {
+        return new error
+      }
+    } else {
+      throw new NotFoundException('Recipe not found');
     }
   }
 
@@ -80,10 +88,32 @@ export class RecipesService {
     ])
 
     if (recipe.length) {
-      const a = await this.userModel.updateOne(
-        { 'recipes._id': new Types.ObjectId(_id), },
-        { $set: { 'recipes.$': Object.assign(recipe[0].recipes, newRecipe), }, }
-      )
+      try {
+        await this.userModel.updateOne(
+          { 'recipes._id': new Types.ObjectId(_id), },
+          { $set: { 'recipes.$': Object.assign(recipe[0].recipes, newRecipe), }, }
+        )
+
+        return { updated: true, }
+      } catch (error) {
+        return error
+      }
+    } else {
+      throw new NotFoundException('Recipe not found');
+    }
+  }
+
+  async getRecipe(_id: string) {
+    const recipe = await this.userModel.aggregate([
+      { $unwind: '$recipes', },
+      { $match: { 'recipes._id': new Types.ObjectId(_id), }, },
+      { $project: { 'recipes': 1, '_id': 0, }, }
+    ])
+
+    if (recipe.length) {
+      return recipe[0].recipes
+    } else {
+      throw new NotFoundException('Recipe not found');
     }
   }
 }
