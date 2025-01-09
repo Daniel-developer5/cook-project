@@ -20,6 +20,11 @@ export class RecipesController {
     return await this.recipesService.updateRecipe(req.query.id, recipe)
   } 
 
+  @Get(':id')
+  async get(@Param('id') id): Promise<any> {
+    return await this.recipesService.getRecipe(id);
+  } 
+
   @Post('mark-recipe')
   async markRecipe(@Request() req): Promise<any> {
     const { id, mark } = req.body
