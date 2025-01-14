@@ -18,7 +18,7 @@ export class RecipesService {
   }
 
   async getAllRecipes(params) {
-    const { category, search } = (params as GetRecipeParams)
+    const { category, search, limit } = (params as GetRecipeParams)
 
     const recipes = await this.userModel.find()
 
@@ -33,6 +33,7 @@ export class RecipesService {
       })
 
     return allRecipes
+      .slice(0, limit ? +limit : allRecipes.length)
       .filter(recipe => {
         const matches = {
           category: true,
