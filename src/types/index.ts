@@ -13,4 +13,5 @@ export interface Recipe {
 export interface GetRecipeParams {
   category: string,
   search: string,
+  limit: number,
 }
