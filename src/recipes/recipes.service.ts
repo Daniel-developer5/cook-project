@@ -17,6 +17,12 @@ export class RecipesService {
     })
   }
 
+  async getUserRecipes(_id: string) {
+    const user = await this.userModel.findOne({ _id })
+
+    return user.recipes
+  }
+
   async getAllRecipes(params) {
     const { category, search, limit } = (params as GetRecipeParams)
 
