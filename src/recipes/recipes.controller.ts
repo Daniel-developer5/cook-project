@@ -25,6 +25,11 @@ export class RecipesController {
     return await this.recipesService.getRecipe(id);
   } 
 
+  @Get('/user-recipes/:id')
+  async getUserRecipes(@Param('id') id): Promise<any> {
+    return await this.recipesService.getUserRecipes(id);
+  } 
+
   @Post('mark-recipe')
   async markRecipe(@Request() req): Promise<any> {
     const { id, mark } = req.body
@@ -35,5 +40,5 @@ export class RecipesController {
   @Get('get')
   async getAllRecipes(@Request() req: RequestType): Promise<any> {
     return await this.recipesService.getAllRecipes(req.query)
-  } 
+  }
 }
